@@ -1,5 +1,7 @@
+#!/usr/bin/env python3
 import numpy
 from matplotlib import pyplot as plt
+from scipy import interpolate
 
 
 class VoltageData:
@@ -11,6 +13,7 @@ class VoltageData:
         times = numpy.array(times, dtype=numpy.float64)
         voltages = numpy.array(voltages, dtype=numpy.float64)
         self._data = numpy.column_stack((times, voltages))
+        self._spline = None
 
     @property
     def times(self):
@@ -62,6 +65,14 @@ class VoltageData:
             ax = plt.gca()
         ax.plot(self.times, self.voltages, fmt, **kwargs)
 
+    def __call__(self, t):
+        """Returns the voltage value at time t (interpolated)."""
+        if self._spline is None:
+            self._spline = interpolate.InterpolatedUnivariateSpline(
+                self.times, self.voltages, k=3
+            )
+        return self._spline(t)
+
 
 if __name__ == '__main__':
     """Here we test the functionalities of our class. These are not
@@ -90,5 +101,7 @@ if __name__ == '__main__':
     print(v_data)
     # Test plotting
     plt.figure('voltage vs time')
-    v_data.plot(plt.gca(), fmt='r+')
+    v_data.plot(plt.gca(), fmt='ro')
+    te = numpy.linspace(t.min(), t.max(), 200)
+    plt.plot(te, v_data(te), 'b--', label='spline')
     plt.show()
