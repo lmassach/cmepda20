@@ -3,6 +3,7 @@
 
 class FourVector {
   public:
+    // The default construct only exists if we don't implement any constructor
     FourVector() {}
     FourVector(double px, double py, double pz, double e) :
         px_(px), py_(py), pz_(pz), e_(e) {}
