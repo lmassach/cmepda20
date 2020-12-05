@@ -1,6 +1,6 @@
 // Non è vero che scriviamo in C, è C++ (vedi la dichiarazione dei dim3...)
 // Compiliamo con
-//     $ nvcc -o matrixmul matrixmul.cu --gpu-architecture=sm_50
+//     $ nvcc -o matrixmul.out matrixmul.cu --gpu-architecture=sm_50
 // Sotto Windows serve 'x64 Native Tools Command Prompt for VS 2019'
 //     $ nvcc -o matrixmul.exe matrixmul.cu --gpu-architecture=sm_50
 #include <cuda.h>
